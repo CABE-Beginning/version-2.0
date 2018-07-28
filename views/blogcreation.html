@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<!-- content editable script begins here   -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+//script to control highlighter
+    $(document).ready(function () {
+        $('button').click(function () {
+            //$(this).toggleClass('iconBTNBorder').siblings().removeClass('iconBTNBorder');
+			var boldBTN=0, italicBTN=0, underlineBTN=0 , ordrList=0, unordrList=0, quoteBTN=0, linkBTN=0, codeBTN=0, imgBTN=0;
+			//alert($(this).attr('id'));
+			var clicked=$(this).attr('id');
+			switch(clicked)
+			{
+			case "boldBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "italicBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "underlineBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "ordrList" :
+			$(this).toggleClass('iconBTNBorder');
+			$('#unordrList').removeClass('iconBTNBorder');
+			break;
+			case "unordrList" :
+			$(this).toggleClass('iconBTNBorder');
+			$('#ordrList').removeClass('iconBTNBorder');
+			break;
+			case "quoteBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "linkBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "codeBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			default:
+			console.log('no concerns');
+			
+			}
+			
+			
+        });
+    });
+	
+	
+	
+</script>
+<script type="text/javascript">
+ function addImage(){
+var imgPath = document.getElementById("myFile");
+ document.getElementById("textBox").focus();
+                var image= '<img src="serverImage/me.jpg" id="userImg">'//'serverImage/me.jpg'//imgPath;
+				image.id="userImage";
+				image.height='100';
+   image.width='50px';
+                if (document.selection) {//for ie
+                    document.execCommand('insertHtml',false,image);
+                   // document.execCommand('insertImage',false,image);
+                } else {
+                    document.execCommand('insertHtml',false,image);
+					//document.execCommand('insertImage',false,image);
+                }
+				var listId = window.getSelection().focusNode.parentNode;
+				listId.style.height='100px';
+                return false;
+            }
+function insertHTML(img) {
+  var id = "rand" + Math.random();
+  var doc = document.getElementById("textBox");
+  doc = doc.document ? doc.document : doc.contentWindow.document;
+  img = "<img src='" + img + "' id=" + id + ">";
+  if(document.all) {
+    var range = doc.selection.createRange();
+    range.pasteHTML(img);
+    range.collapse(false);
+    range.select();
+  } else {
+    doc.execCommand("insertHTML", false, img);
+  }
+  return doc.getElementById(id);
+};
+var oDoc, sDefTxt;
+var chk=0;
+function initDoc() {
+document.getElementById('tagOne').innerHTML = '&lt;';
+document.getElementById('tagTwo').innerHTML = 'Code';
+document.getElementById('tagThree').innerHTML = ':';
+document.getElementById('tagFour').innerHTML = '<i class="fa fa-code-fork"></i> PlaY';
+document.getElementById('tagFive').innerHTML = '/&gt;';
+
+window.name = $('#textBox').html();
+  oDoc = $('#textBox');
+  $('#textBox').focus();
+  
+  sDefTxt = oDoc.innerHTML;
+  
+  if (document.compForm.switchMode.checked) { var oContent = document.createTextNode(oDoc.innerHTML);
+    oDoc.innerHTML = "";
+    var oPre = document.createElement("pre");
+    oDoc.contentEditable = false;
+    oPre.id = "sourceText";
+    oPre.contentEditable = true;
+    oPre.appendChild(oContent);
+    oDoc.appendChild(oPre);
+    document.execCommand("defaultParagraphSeparator", false, "div");  }
+}
+function showSaved()
+{
+alert(window.name);
+}
+function formatDoc(sCmd, sValue) {
+$('#textBox').focus();
+  document.execCommand(sCmd, false, sValue);
+  
+}
+function codeIt()
+{
+oDoc.focus();
+if(chk==0)
+{
+document.execCommand('insertHTML', true, '<div id="codeBlock" style="font:italic;"></div>');
+codeBlock.document.execCommand('backcolor',true,'#C7FAC7')
+chk=1;
+}
+else{
+chk=0;
+return false;
+}
+}
+function setDocMode(bToSource) {
+  var oContent;
+  if (bToSource) {
+    oContent = document.createTextNode(oDoc.innerHTML);
+    oDoc.innerHTML = "";
+    var oPre = document.createElement("pre");
+    oDoc.contentEditable = false;
+    oPre.id = "sourceText";
+    oPre.contentEditable = true;
+    oPre.appendChild(oContent);
+    oDoc.appendChild(oPre);
+    document.execCommand("defaultParagraphSeparator", false, "div");
+  } else {
+    if (document.all) {
+      oDoc.innerHTML = oDoc.innerText;
+    } else {
+      oContent = document.createRange();
+      oContent.selectNodeContents(oDoc.firstChild);
+      oDoc.innerHTML = oContent.toString();
+    }
+    oDoc.contentEditable = true;
+  }
+  oDoc.focus();
+}
+function SaveThisBlog()
+{
+	const headData = $("#blogHead").val();
+      const bodyData = $('#textBox').html();
+	  $.post("http://localhost:3000/saveblog", { headData:headData,bodyData:bodyData}, (data, status) => {
+        if (status === 'success' )
+		{
+		console.log(data);
+          alert('Successfully Saved!');
+		  }
+		  
+        else
+		{
+		console.log(data.name);
+          alert("Save failure!");
+		  }
+      });
+}
+</script>
+<!-- content editable script ends here   -->
+
+
+
+	<script>
+		
+		$(document).ready(function(){
+			
+			function foo() {
+			    if( typeof foo.counter == 'undefined' ) {
+			        foo.counter = 0;
+			    }
+			    foo.counter++;
+			    return foo.counter;
+			}
+			$('#para').click(function(){
+				  	var input = document.createElement("INPUT");    
+				  	input.setAttribute("type", "text");                   // Create a <p> element
+					document.getElementById("newpara").appendChild(input);           // Append <p> to <div> with id="myDIV" 
+					var para = document.createElement("p");
+					var node = document.createTextNode("Paragraph"+foo());
+					para.setAttribute("id","para"+node+"");
+					para.appendChild(node); 
+					var element = document.getElementById("blogtree");
+					element.appendChild(para);
+			});
+			$('#image').click(function(){
+					var x = document.createElement("INPUT");
+					x.setAttribute("type", "image");
+					x.setAttribute("src","./public/img/user_logo.png");
+					x.setAttribute("width","75%");
+					x.setAttribute("name","demo");
+					document.getElementById("newpara").appendChild(x); 
+			});
+			$('#blogcreate').click(function(){
+			var head = document.getElementById('Head').value;
+			var intro = document.getElementById('intro').value;
+			var blog = document.getElementById('blog').value;
+			      $.post("http://localhost:3000/blogcreate", 
+			      		{query: 'createblog',
+			      		Heading: head,
+			      		Intro: intro,
+			      		blog: blog,
+			      		//Createdd : Date.now(),
+			      		}, 
+			      	(data, status) => {
+		          		console.log(status);
+		                if(status === 'success' )
+		                  {  
+		                    	window.location.href = '/blog';
+		                  }
+		                });
+		      });
+		});
+		
+		
+		
+	</script>
+	
+	<style type="text/css" name="content ediatble style...most welcome to change">
+	
+	
+	userImage
+{
+height:100px;
+}
+codeSection
+{
+background-color:#C7FAC7;
+}
+#userImg{
+display:block;
+width:200px;
+height:150px;
+margin-left: auto;
+    margin-right: auto;
+}
+#toolBar1 select { font-size:10px; }
+#textBox {
+font-size: 17px;
+  width: 800px;
+  min-height: 300px;
+ border:1px solid #C4C8C4;
+  word-break: break-word; 
+  border-radius: 4px;
+  
+  outline:none;
+}
+input:focus,
+select:focus,
+textarea:focus,
+div:focus
+button:focus {
+    outline: none;
+}
+#editMode label { cursor: pointer; }
+input[type="text"]
+{
+    font-size:24px;
+}
+#codeBlock
+{
+width:90%;
+margin-left:5%;
+margin-left:5%;
+background-color:#EAEAEA;
+height:20px;
+ word-break: break-all;
+font:italic;
+}
+.iconBTN
+{
+background-color: Transparent;
+background-repeat:no-repeat;
+border: 1px solid white;
+cursor:pointer;
+overflow: hidden;
+outline:none;0
+height:10px;
+margin-top:2px;	
+}
+.iconBTN:hover
+{
+background-color: lightgrey;
+}
+.iconBTNBorder
+{
+border: 1px solid lightgrey;
+color: dodgerblue;
+}
+.submitBTN {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 1px;
+    cursor: pointer;
+	border-radius: 4px;
+}
+.button:hover {background-color: #3e8e41}
+button {border-radius: 4px;}
+.toolBar2
+{
+ border-radius: 4px;
+ height:35px;
+ 
+}
+#container {
+    display: flex;
+    justify-content: center;
+}
+select{
+background-color:#f9f9f9;
+border-radius: 2px;
+position: relative;
+bottom: 7px;
+left:3px;
+height:27px;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+	</style>
+	
+</head>
+
+<body class="w3-Nunito w3-small" onload="initDoc();">
+	
+<div class="w3-container w3-top" style="background-color:#24292e;padding-top:17px;padding-left:32px;padding-bottom: 6px;">
+	<div class="w3-row">
+		
+	      <div class="w3-col" style="width:300px;">
+	        <p class="w3-large w3-margin"  style="font-size: 20px;">
+	        <spam style="color: #C9C9C9; font-size: 22px;margin:0px;padding:0px;" id="tagOne"></spam>
+	        <spam style="color: #4a90e2; font-size: 22px;margin:0px;padding:0px;" id="tagTwo"></spam>
+	        <spam style="color: #C9C9C9; font-size: 22px;margin:0px;padding:0px;" id="tagThree"></spam>
+	        <spam style="color: #0bff01; font-size: 22px;margin:0px;padding:0px;" id="tagFour"></spam>
+	        <spam style="color: #C9C9C9; font-size: 22px;margin:0px;padding:0px;" id="tagFive"></spam>
+	        </p>
+	      </div>
+
+	</div>
+</div>
+<!-- My contentediatble begins here  -->	
+	<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <div style="background-color:#6CCF6C  ;width:50%;border-radius:4px;color:white;text-align: center;margin-left:25%;"><big>Choose your file</big></div>
+      </div>
+      <div class="modal-body">
+       
+    <input id="myFile" type="file"/>
+</label>
+	   
+      </div>
+      <div class="modal-footer">
+	  <button style="margin-left:20%;background-color:#6CCF6C  ;color:white;" class=" btn  btn-default" type="button" onclick="addImage()" data-dismiss="modal">Upload</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<input type="hidden" name="myDoc" style="width:800px;">
+<div id="toolBar2" class="toolBar2" style="margin-left:20%;border:1px solid #C4C8C4;width:800px;margin-top:20px;">
+<button class="material-icons iconBTN " title="Bold" id="boldBTN" onclick="formatDoc('bold');"  style="margin-left:3px;">format_bold</button>
+<button class="material-icons iconBTN" id="italicBTN" title="Italic" onclick="formatDoc('italic');" >format_italic</button>
+<button  class="material-icons iconBTN" id="underlineBTN" title="Underline" onclick="formatDoc('underline');" >format_underline</button>
+<button class="material-icons iconBTN" id="ordrList" title="Numbered list" onclick="formatDoc('insertorderedlist');" >format_list_numbered</button>
+<button  class="material-icons iconBTN" id="unordrList" title="Dotted list" onclick="formatDoc('insertunorderedlist');">list</button>
+<button  class="material-icons iconBTN" id="quoteBTN" title="Quote" onclick="formatDoc('formatblock','blockquote');"> format_quote</button>
+<button class="material-icons iconBTN"  id="linkBTN" title="Hyperlink" onclick="var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}">link</button>
+<button  class="material-icons iconBTN" id="codeBTN" title="Code" onclick="codeIt()" ><div>code<div> </button>
+<button  class="material-icons iconBTN" id="imgBTN" title="Upload Image" data-toggle="modal" data-target="#myModal" >add_photo_alternate</button>
+<span >
+<select onchange="formatDoc('formatblock',this[this.selectedIndex].value);" tedIndex=0;>
+<option value="p" style="margin-top: 0px;">Paragraph</option>
+<option value="pre">Preformatted &lt;pre&gt;</option>
+<option value="h1">Heading 1</option>
+<option value="h2">Heading 2</option>
+<option value="h3">Heading 3</option>
+<option value="h4">Heading 4</option>
+<option value="h5">Heading 5</option>
+<option value="h6">Heading 6</option>
+
+</select>
+</span>
+</div>
+
+<input id="blogHead" type="text" placeholder="title..." style="width:800px;height:60px; margin-left:20%;font-weight:bold;border:1px;"/>
+<div id="textBox" contenteditable="true" style="width:800px;margin-left:20%;padding-left: 15px;padding-right: 15px;padding-top: 10px;"></div>
+<button style="margin-left:20%;" class="submitBTN" type="button" onclick="SaveThisBlog()" >Submit</button>
+
+			
+<!-- My contentediatble ends here  -->			
+			
+		
+		
+</body>
+</html>

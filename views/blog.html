@@ -1,0 +1,426 @@
+	<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<script src="./public/js/ejs.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src= "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+	<link rel="stylesheet" href="./public/css/style.css">
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script>
+
+		var rows =<%-JSON.stringify(blogdetail)%>
+			Object.size = function(obj) {
+		    var size = 0, key;
+		    for (key in obj) {
+		        if (obj.hasOwnProperty(key)) size++;
+		    }
+		    return size;
+		};
+
+		// Get the size of an object
+		var size = Object.size(rows);
+
+		function onloading(){
+			document.getElementById('tagOne').innerHTML = '&lt;';
+			document.getElementById('tagTwo').innerHTML = 'Code';
+			document.getElementById('tagThree').innerHTML = ':';
+			document.getElementById('tagFour').innerHTML = '<i class="fa fa-code-fork"></i> PlaY';
+			document.getElementById('tagFive').innerHTML = '/&gt;';
+			document.getElementById('blogSize').innerHTML = size;
+		}
+
+		$(document).ready(function(){
+			$("#blogcreate").click(function(){
+         		console.log('inside clog create');
+		          $.post("http://localhost:3000/blogcreation",  (data, status) => {
+		          		console.log('status >>>>>>>>>>>>>>'+status);
+		                if(status === 'success' )
+		                  {  
+		                    window.location.href = '/blogcreation';
+		                  }
+		                });
+		      });
+		});
+
+		jQuery(document).ready(function() {
+    	$(".blogs").bind('click', $.proxy(function(event) {
+        var blogID = $(event.target).attr('id');
+        
+        	$.post("http://localhost:3000/blogdetail/"+blogID, { blogID: blogID}, (data, status) => {
+		          		console.log('status >>>>>>>>>>>>>>'+status);
+		                if(status === 'success' )
+		                  {  
+		                    window.location.href = '/blogdetail/'+blogID;
+		                  }
+		                });
+   			}, this));
+
+		});
+	</script>
+	<style>
+		ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: #c9c9c9;
+			text-align: center;
+			padding: 10px 15px;
+			text-decoration: none;
+			border-radius: 2px;
+			
+		}
+
+		li a:hover {
+			background-color:  #ff6347	;
+			color:white;
+		}
+		
+		/*box outline*/
+		#blogsetup:hover {
+			outline : 1px solid 	#99ccff;
+		}
+		#modulesetup:hover {
+			outline : 1px solid 	#99ccff;
+		}
+		
+			
+	</style>
+	<style>
+		.button {
+			position: relative;
+			background-color: #4CAF50;
+			border: none;
+			font-size: 16px;
+			color: #FFFFFF;
+			padding: 8px;
+			margin-top:0px;
+			margin:10px;
+			width:90%;
+			text-align: center;
+			-webkit-transition-duration: 0.4s; /* Safari */
+			transition-duration: 0.4s;
+			text-decoration: none;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		.button:after {
+			content: "";
+			background: #90EE90;
+			display: block;
+			position: absolute;
+			padding-top: 300%;
+			padding-left: 350%;
+			margin-left: -20px!important;
+			margin-top: -120%;
+			opacity: 0;
+			transition: all 0.8s
+		}
+
+		.button:active:after {
+			padding: 0;
+			margin: 0;
+			opacity: 1;
+			transition: 0s
+		}
+		</style>
+</head>
+
+<body class="w3-Nunito w3-small" onload="onloading()" style="background-color: #f5f5f5">
+<div class="w3-container w3-top w3-mobile" style="background-color:#24292e;">		
+	<div class="w3-row ">
+		
+	      <div class="w3-col" style="width:300px;">
+	        <p class="w3-large w3-margin"  style="font-size: 20px;">
+	        <spam style="color: #C9C9C9; font-size: 22px;margin:0px;padding:0px;" id="tagOne"></spam>
+	        <spam style="color: #4a90e2; font-size: 22px;margin:0px;padding:0px;" id="tagTwo"></spam>
+	        <spam style="color: #C9C9C9; font-size: 22px;margin:0px;padding:0px;" id="tagThree"></spam>
+	        <spam style="color: #0bff01; font-size: 22px;margin:0px;padding:0px;" id="tagFour"></spam>
+	        <spam style="color: #C9C9C9; font-size: 22px;margin:0px;padding:0px;" id="tagFive"></spam>
+	        </p>
+	      </div>
+	     
+	      <div class="w3-rest">
+	      	<div class="w3-container w3-center w3-margin-top" style="margin-left: 8%;">
+	      		<div class="w3-text-black " style="background-color: #24292e;">
+					<div style="font-size: 14px; ">
+						<ul>
+					  		<li><b><a class="active" href="#home"><i class="fa fa-code"></i> &nbsp;Blog</a></b></li>
+					  		<li><b><a href="#news"><i class="fa fa-check"></i> &nbsp;Practise</a></b></li>
+					  		<li><b><a href="#contact"><i class="fa fa-code-fork"></i> &nbsp;Implement</a></b></li>
+					  		<li><b><a href="#about"><i class="fa fa-life-bouy"></i> &nbsp;Contribute</a></b></li>
+					  		<li><b><a href="#about"><i class="fa fa-magic"></i> &nbsp;Fun</a></b></li>
+						</ul>
+					</div>
+				</div>
+	      	</div>
+	      </div>
+	</div>
+</div>
+<div class="w3-panel  w3-round-large" style="margin-top:5%;padding:0px;width:100%;position: relative;border-bottom:2px solid lightgrey;">
+		<div class="w3-container w3-white">
+			<div class="w3-row w3-">
+				<div class="w3-col w3-quarter w3-margin-top">
+
+						<div class="w3-row">
+					
+							<div class="w3-col w3-half">
+								<img class="w3-circle" src='<%= userdetail.profileImage %>' id="homepic" width="90%" style="border:2px solid #fff;box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.15),0 1.5px 3px 0 rgba(0,0,0,.15);"/>
+						 	 </div>
+						 	<div class="w3-col w3-half">
+						 		<p class="w3-large" style="padding-bottom:0px;margin-bottom:0px; color:black">
+		                		<b><%= userdetail.FirstName %> <%= userdetail.LastName%></b> 
+		          				</p>
+		          				<br/>
+		          				Code Lover
+						 	</div>
+						</div>
+					           		
+				</div>
+	
+				
+				<div class="w3-col w3-half w3-round-large w3-margin-top w3-margin-bottom" >
+					
+						<div class="w3-col w3-cell w3-container w3-margin-top" style="margin-left: 10%;width: 80%;">
+							<div class="w3-col	w3-round" style="background-color:white;height: 16vh;">
+								  <div class="w3-margin">
+									<div class="w3-row">
+									  	<div class="w3-col w3-quarter ">
+											<p class="w3-xxlarge" style="color:#4b7bec;margin:0px;font-weight: 600;" id="blogSize"> 
+												
+											</p>
+											<p style="color:grey;margin:0px;" class="w3-large">blogs </p>
+									  	</div>
+									  	<div class="w3-col w3-quarter">
+											<p class="w3-xxlarge" style="color:#4b7bec;margin:0px;"> <b>101 </b> </p>
+											<p style="color:grey;margin:0px;" class="w3-large">likes </p>
+									  	</div>
+									
+										<div class="w3-col w3-quarter">
+											<p class="w3-xxlarge" style="color:#4b7bec;margin:0px;"> <b>192 </b> </p>
+											<p style="color:grey;margin:0px;" class="w3-large">views </p>
+									  	</div>
+								  
+									  	<div class="w3-col w3-quarter">
+											<p class="w3-xxlarge" style="color:#4b7bec;margin:0px;"> <b>92 </b> </p>
+											<p style="color:grey;margin:0px;" class="w3-large">views / week </p>
+									  	</div>
+								  	</div>						
+								  </div>
+
+								<!--<div class="w3-half w3-padding" >
+									<canvas id="myChart" height="110px"></canvas>
+								</div>  -->
+		 					</div>
+						</div>
+				</div>
+				<div class="w3-col w3-quarter">
+					&nbsp;
+				</div>
+				<div class="w3-col w3-quarter">
+					
+						<div class="w3-center w3-margin-top w3-margin-bottom w3-round-large" style="border: 1px solid lightgrey; background-color: white;">
+						<div class=" w3-left-align w3-text-grey w3-margin">	
+							Your Favorite Tags:		
+								<span class="w3-tag w3-round w3-small w3-light-grey w3-text-grey">Lighting</span>	
+								<span class="w3-tag w3-round w3-small w3-light-grey w3-text-grey">SFDC</span>
+								<span class="w3-tag w3-round w3-small w3-light-grey w3-text-grey">Heroku</span>
+						</div>	
+						<div class="w3-large"> Pen Down your thoughts !!</div>						
+						<button class="button" id="blogcreate">Write new blog</button>
+						</div>
+					
+				</div>
+			</div>
+		</div>
+</div>
+<div class="w3-container" >
+		
+		<div class="w3-col w3-panel" style="width:75%;padding: 0px">
+			<% for (var key in blogdetail) { %>	
+						<div class="w3-third w3-margin-left  w3-margin-bottom"  style="width:31%;">	
+							<div class="w3-normal w3-white" style="height: 180px;overflow: hidden;border: 1px solid #e0e0e0; box-shadow: 0 1.5px 3px 0 rgba(0,0,0,.15);border-radius: 4px 4px 0px 0px;" >
+
+								<div class="blogs w3-white w3-large w3-padding w3-text-black" id="<%= blogdetail[key].id %>">
+						    		<%= blogdetail[key].BlogHead %>
+						    		
+								</div>
+								<div class="w3-container w3-row w3-normal w3-white w3-padding w3-center">
+
+									<div class="w3-col w3-left-align w3-text-grey">
+
+										<span class="w3-tag w3-round w3-small w3-light-grey w3-text-grey">Lighting</span>
+									
+										<span class="w3-tag w3-round w3-small w3-light-grey w3-text-grey">Lighting</span>
+
+										<span class="w3-tag w3-round w3-small w3-light-grey w3-text-grey">Lighting</span>
+
+									</div>					
+								</div>
+								<div class="blogs w3-white w3-padding w3-center" id="<%= blogdetail[key].id %>">
+									<hr style="margin:0px"/>
+						    		<%= blogdetail[key].BlogBody %>
+								</div>
+							</div>	
+								
+							<div class="w3-container w3-row w3-normal w3-white w3-padding w3-center" style="border-radius: 0px 0px 4px 4px; border: 1px solid #e0e0e0; box-shadow: 0 1.5px 3px 0 rgba(0,0,0,.15);">
+
+								<div class="w3-col w3-third w3-text-grey">
+									8 June
+								</div>
+								<div class="w3-col w3-twothird">
+									<div class="w3-third w3-text-grey">
+										25 &nbsp; <i id="<%= blogdetail[key].id %>" class="fa fa-thumbs-o-up like"></i> 
+									</div>
+									<div class="w3-third w3-text-grey">
+										45 &nbsp; <i  id="<%= blogdetail[key].id %>" class="fa fa-code-fork like"></i> 
+									</div>
+									<div class="w3-third w3-text-grey">
+										1 &nbsp; <i  id="<%= blogdetail[key].id %>" class="fa fa-comment-o like"></i> 
+									</div>
+								</div>					
+							</div>	
+						</div>
+						<% } %>
+		</div>
+		<div class="w3-col w3-margin" style="width:22%;">
+			
+			<div class="w3-row w3-margin-bottom w3-padding w3-round-large" style="border: 1px solid #e0e0e0; background-color: white;">
+				<div>
+					<div class="w3-col"  style="width:80%;">
+					   	<p style="font-size:15px;color:#3cb371;color:DodgerBlue;margin:5px;"><b>Your Top blogs</b></p>
+					</div>
+					<div class="w3-rest w3-right-align">
+					    <div><i class="material-icons" style="color:grey;"> list </i></div>
+					</div>
+				</div>
+				<div class="w3-col w3-center-align w3-padding" style="background-color:white;">
+				 	<div class="w3-row w3-margin-bottom">
+					  	<div class="w3-col"  style="width:15%">
+					   		<img class="w3-circle" src="./public/Images/garcia5.jpg" width="100%">
+					  	</div>
+					  	<div class="w3-col w3-container w3-cell w3-cell-middle" style="width:50%">
+					    	<div><b>Terry Nelson</b> </div>
+					    	<div> 23 views </div>
+					  	</div>
+					</div>
+					<div class="w3-row w3-margin-bottom">
+					  	<div class="w3-col"  style="width:15%">
+					   		<img class="w3-circle" src="./public/Images/garcia5.jpg" width="100%">
+					  	</div>
+					  	<div class="w3-col w3-container w3-cell w3-cell-middle" style="width:50%">
+					    	<div><b>Terry Nelson</b> </div>
+					    	<div> 23 views </div>
+					  	</div>
+					</div>
+					<div class="w3-row">
+					  	<div class="w3-col"  style="width:15%">
+					   		<img class="w3-circle" src="./public/Images/garcia5.jpg" width="100%">
+					  	</div>
+					  	<div class="w3-col w3-container w3-cell w3-cell-middle" style="width:50%">
+					    	<div><b>Terry Nelson</b> </div>
+					    	<div> 23 views </div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			<div class="w3-row w3-margin-bottom w3-padding w3-round-large" style="border: 1px solid #e0e0e0; background-color: white;">
+				<div>
+					<div class="w3-col"  style="width:80%">
+					   	<p style="font-size:15px;color:#3cb371;color:DodgerBlue;margin:5px;"><b># Trending Topics</b></p>
+					</div>
+					<div class="w3-rest w3-right-align">
+					    <div><i class="material-icons" style="color:grey;"> list </i></div>
+					</div>
+				</div>
+				<div class="w3-col w3-center-align w3-padding" style="background-color:white;">
+				 	<div class="w3-row w3-margin-bottom">
+					  	<div class="w3-col"  style="width:15%">
+					   		<img class="w3-circle" src="./public/Images/garcia5.jpg" width="100%">
+					  	</div>
+					  	<div class="w3-col w3-container w3-cell w3-cell-middle" style="width:50%">
+					    	<div><b># Python</b> </div>
+					    	<div> 23 blogs </div>
+					  	</div>
+					  	<div class="w3-col w3-cell w3-cell-middle"  style="width:30%">
+					   		<button class="Followbutton" type="button">+ Follow</button>
+					  	</div>
+					</div>
+					<div class="w3-row w3-margin-bottom">
+					  	<div class="w3-col"  style="width:15%">
+					   		<img class="w3-circle" src="./public/Images/garcia5.jpg" width="100%">
+					  	</div>
+					  	<div class="w3-col w3-container w3-cell w3-cell-middle" style="width:50%">
+					    	<div><b># Lighting</b> </div>
+					    	<div> 23 blogs </div>
+					  	</div>
+					  	<div class="w3-col w3-cell w3-cell-middle"  style="width:30%">
+					   		<button class="Followbutton" type="button">+ Follow</button>
+					  	</div>
+					</div>
+					<div class="w3-row">
+					  	<div class="w3-col"  style="width:15%">
+					   		<img class="w3-circle" src="./public/Images/garcia5.jpg" width="100%">
+					  	</div>
+					  	<div class="w3-col w3-container w3-cell w3-cell-middle" style="width:50%">
+					    	<div><b># JQuery</b> </div>
+					    	<div> 23 blogs </div>
+					  	</div>
+					  	<div class="w3-col w3-cell w3-cell-middle"  style="width:30%">
+					   		<button class="Followbutton" type="button">+ Follow</button>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script>
+		/*	var ctx = document.getElementById('myChart').getContext('2d');
+			var chart = new Chart(ctx, {
+			    // The type of chart we want to create
+			    type: 'line',
+
+			    // The data for our dataset
+			    data: {
+			        labels: ["", "", "", "", "", "", ""],
+			        datasets: [{
+			            
+			            backgroundColor: 'white',
+			            borderColor: '#c0392b',
+			            data: [0, 10, 5, 2, 20, 30, 45],
+			            fill : false,
+			        }]
+			    },
+			  options:{
+					legend: {
+					    display: false,
+					}
+				}
+			});*/
+</script>		
+</html>
