@@ -1,5 +1,7 @@
 'use strict';
-
+var bayes = require('ml-bayes');
+ 
+var classifier = new bayes();
 var mongoose = require('mongoose'),
   	cors 			= require('cors'),
   	userDB			= mongoose.model('myUserDatabase'),
@@ -156,7 +158,44 @@ exports.saveblog=function(req,res) {
 	  const userid = req.session.uid;
 	  console.log('asd'+userid);
 	  console.log('asd'+req.session.uid);
-	  var myData = new blog({BlogHead:headData,BlogBody:bodyData,CreatedBy: userid});
+	 
+	    // classification starts here
+
+ 
+classifier.train('aura lightning slds attribute init component event helper controller js javascript script src sfdc modal <aur:if> ',"Salesforce Lightning")
+classifier.train('Println system.out import util class scanner String class object new  abstract case	continue	case 	while abstract	continue	for	new	switch assert***	default	goto*	package	synchronized boolean	do	if	private	this break	double	implements	protected	throw byte	else import	public	throws case	enum****	instanceof	return	transient catch	extends	int	short	try'
++'char	final	interface	static	void class	finally	long	strictfp**	volatile const*	float	native	super	while', 'Java')
+ 
+
+ 
+classifier.train('auto	break	case 	char	const	continue default	do	double	else	enum	extern float	for	goto	if	else int	long register	return	short	signed	sizeof	static struct	switch	typedef	union	unsigned printf	c c++ void volatile	while', 'C/C++');
+
+classifier.train('False None True and as assert break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield python','Pyhton');
+
+classifier.train('__dirname  __filename clearImmediate(immediateObject) clearInterval(intervalObject)clearTimeout(timeoutObject) console exports global module process require() setImmediate(callback[, ...args]) setInterval(callback, delay[, ...args]) setTimeout(callback, delay[, ...args]) URL URLSearchParams Global Objects express var app.set console.log'
++'__dirname __filename exports module require()','Node JS');
+
+classifier.train(' __halt_compiler abstract and array as break callable case catch class clone const continue declare default die do echo else elseif empty enddeclare endfor endforeach endif endswitch endwhile eval exit extends final for foreach function global goto if implements include include_once instanceof insteadof interface isset list namespace new or print private protected public require require_once return static'
++' switch throw trait try unset use var while xor self php parent', 'PHP');
+ 
+var score=classifier.guess(bodyData);
+var winner = classifier.extractWinner(score);
+console.log(winner);
+console.log(score);
+console.log(score[0]);
+var blogTags=[];
+for( var index in score)
+{
+	if(score[index]>0.5)
+	{
+		blogTags.push(index);
+		console.log('winning:-  '+score[index]+'from  '+index);
+	}
+}
+
+//classification ends here 
+
+ var myData = new blog({BlogHead:headData,BlogBody:bodyData,CreatedBy: userid, tags:blogTags});
 	  myData.save(function(err, blog) {
 	    if (err || blog.length === 0)
 			{
