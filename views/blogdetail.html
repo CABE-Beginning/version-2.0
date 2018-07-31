@@ -20,7 +20,34 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 	<script>
+
 		function onloading(){
+			var createdDate = new Date(<%-JSON.stringify(blog[0].CreatedDate)%>);
+			switch (createdDate.getDay()) {
+			    case 0:day = "Sunday";break;
+			    case 1:day = "Monday";break;
+			    case 2:day = "Tuesday";break;
+			    case 3:day = "Wednesday";break;
+			    case 4:day = "Thursday";break;
+			    case 5:day = "Friday";break;
+			    case 6:day = "Saturday";
+			}
+			switch (createdDate.getMonth()) {
+			    case 1: month = "January";break;
+		        case 2: month = "February";break;
+		        case 3: month = "March";break;
+		        case 4: month = "April";break;
+		        case 5: month = "May";break;
+		        case 6: month = "June";break;
+		        case 7: month = "July";break;
+		        case 8: month = "August";break;
+		        case 9: month = "September";break;
+		        case 10: month = "October";break;
+		        case 11: month = "November";break;
+		        case 12: month = "December";break;
+		        }
+			var blogdate = day+'&nbsp,&nbsp'+createdDate.getDate()+'&nbsp;'+month+'&nbsp;'+createdDate.getFullYear();
+			document.getElementById('BlogDate').innerHTML = blogdate;
 			document.getElementById('tagOne').innerHTML = '&lt;';
 			document.getElementById('tagTwo').innerHTML = 'Code';
 			document.getElementById('tagThree').innerHTML = ':';
@@ -86,9 +113,11 @@
 					<div class="w3-col" style="width:10%;">
 						<img class="w3-circle " src='<%= blog[0].CreatedBy.profileImage %>' id="homepic" width="100%;" style="border:2px solid #fff;box-shadow: inset 0 1.5px 3px 0 rgba(0,0,0,.15),0 1.5px 3px 0 rgba(0,0,0,.15);"/>
 					</div>
-					<div class="w3-rest w3-large w3-right-align">Written By - 
-						<%= blog[0].CreatedBy.FirstName %> <%=blog[0].CreatedBy.LastName %>
+					<div class="w3-rest w3-large w3-right-align">Written By - <%= blog[0].CreatedBy.FirstName%> <%=blog[0].CreatedBy.LastName%>
+						<br/>
+						<span class="w3-text-grey" style="font-size:14px " id="BlogDate"></span>
 					</div>
+
 				</div>
 			</div>
 			<div class="w3-rest w3-margin">

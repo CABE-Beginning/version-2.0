@@ -180,22 +180,22 @@ classifier.train(' __halt_compiler abstract and array as break callable case cat
  
 var score=classifier.guess(bodyData);
 var winner = classifier.extractWinner(score);
-console.log(winner);
-console.log(score);
-console.log(score[0]);
+//console.log(winner);
+//console.log(score);
+//console.log(score[0]);
 var blogTags=[];
 for( var index in score)
 {
 	if(score[index]>0.5)
 	{
 		blogTags.push(index);
-		console.log('winning:-  '+score[index]+'from  '+index);
+		//console.log('winning:-  '+score[index]+'from  '+index);
 	}
 }
 
 //classification ends here 
 
- var myData = new blog({BlogHead:headData,BlogBody:bodyData,CreatedBy: userid, tags:blogTags});
+ var myData = new blog({BlogHead:headData,BlogBody:bodyData,CreatedBy: userid, tags:blogTags, CreatedDate: Date.now()});
 	  myData.save(function(err, blog) {
 	    if (err || blog.length === 0)
 			{
