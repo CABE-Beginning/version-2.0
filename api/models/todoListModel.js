@@ -25,6 +25,7 @@ var BlogFlowSchema = new Schema({
 	BlogImageUrl:{type: String, trim: true,sparse: true, required: false},
 	BlogBody:{type: String, trim: true,sparse: true, required: false},
 	Topic : {type: String},
+	tags : [],
   CreatedBy : {  type: Schema.Types.ObjectId, ref: 'myUserDatabase'} ,
   CreatedDate : {type:Date},
   viewerid : [{  type: Schema.Types.ObjectId, ref: 'myUserDatabase'} ],

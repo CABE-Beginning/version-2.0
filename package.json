@@ -34,8 +34,10 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "ml-bayes": "^1.0.5",
     "mongoose": "^5.0.16",
     "multer": "^1.3.1",
+    "node-bayes": "^1.1.0",
     "npm": "^6.0.1",
     "redis": "^2.8.0",
     "serve-static": "^1.13.2"
