@@ -180,9 +180,9 @@ classifier.train(' __halt_compiler abstract and array as break callable case cat
  
 var score=classifier.guess(bodyData);
 var winner = classifier.extractWinner(score);
-//console.log(winner);
-//console.log(score);
-//console.log(score[0]);
+console.log(winner);
+console.log(score);
+console.log(score[0]);
 var blogTags=[];
 for( var index in score)
 {
